@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Monitoring Aquarium</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0077b6, #90e0ef);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .input-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        input {
+            width: 220px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            background: #0077b6;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #023e8a;
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .card {
+            width: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card h2 {
+            margin-top: 0;
+        }
+        
+        .nilai {
+            font-size: 40px;
+            font-weight: bold;
+            color: #0077b6;
+            margin: 15px 0;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .merah {
+            background: #ffcccc;
+            color: #d00000;
+        }
+        
+        .hijau {
+            background: #d8f3dc;
+            color: #2d6a4f;
+        }
+        
+        .biru {
+            background: #d0ebff;
+            color: #1971c2;
+        }
+        
+        .kuning {
+            background: #fff3bf;
+            color: #e67700;
+        }
+        
+        @media (max-width: 768px) {
+            input {
+                width: 100%;
+            }
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🐠 Dashboard Monitoring Aquarium</h1>
+        <p class="subtitle">
+            Mode Pengujian Manual (Tanpa Sensor)
+        </p>
+
+        <!-- Input Data -->
+        <div class="input-box">
+
+            <div class="input-group">
+
+                <input type="number" id="inputSuhu" placeholder="Suhu Air (°C)" step="0.1">
+
+                <input type="number" id="inputOksigen" placeholder="Oksigen Terlarut (mg/L)" step="0.1">
+
+                <input type="number" id="inputAir" placeholder="Ketinggian Air (%)">
+
+            </div>
+
+            <div class="button-group">
+                <button onclick="cekData()">
+                Cek Kondisi
+            </button>
+            </div>
+
+        </div>
+
+        <!-- Dashboard -->
+        <div class="card-container">
+
+            <!-- Suhu -->
+            <div class="card">
+
+                <h2>🌡️ Suhu Air</h2>
+
+                <div class="nilai" id="suhu">
+                    -
+                </div>
+
+                <div class="status" id="statusSuhu">
+                    -
+                </div>
+
+            </div>
+
+            <!-- Oksigen -->
+            <div class="card">
+
+                <h2>🫧 Oksigen Terlarut</h2>
+
+                <div class="nilai" id="oksigen">
+                    -
+                </div>
+
+                <div class="status" id="statusOksigen">
+                    -
+                </div>
+
+            </div>
+
+            <!-- Air -->
+            <div class="card">
+
+                <h2>💧 Ketinggian Air</h2>
+
+                <div class="nilai" id="air">
+                    -
+                </div>
+
+                <div class="status" id="statusAir">
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function setStatus(element, teks, warna) {
+            element.innerHTML = teks;
+            element.className = "status " + warna;
+        }
+
+        function cekData() {
+
+            let suhu = parseFloat(
+                document.getElementById("inputSuhu").value
+            );
+
+            let oksigen = parseFloat(
+                document.getElementById("inputOksigen").value
+            );
+
+            let air = parseFloat(
+                document.getElementById("inputAir").value
+            );
+
+            if (isNaN(suhu) || isNaN(oksigen) || isNaN(air)) {
+                alert("Silakan isi semua data terlebih dahulu.");
+                return;
+            }
+
+            /* Menampilkan nilai */
+
+            document.getElementById("suhu").innerHTML =
+                suhu + " °C";
+
+            document.getElementById("oksigen").innerHTML =
+                oksigen + " mg/L";
+
+            document.getElementById("air").innerHTML =
+                air + " %";
+
+            /* Status Suhu */
+
+            if (suhu < 26) {
+
+                setStatus(
+                    document.getElementById("statusSuhu"),
+                    "❄️ Terlalu Dingin",
+                    "biru"
+                );
+
+            } else if (suhu <= 30) {
+
+                setStatus(
+                    document.getElementById("statusSuhu"),
+                    "✅ Normal",
+                    "hijau"
+                );
+
+            } else {
+
+                setStatus(
+                    document.getElementById("statusSuhu"),
+                    "🔥 Terlalu Panas",
+                    "merah"
+                );
+            }
+
+            /* Status Oksigen */
+
+            if (oksigen < 5) {
+
+                setStatus(
+                    document.getElementById("statusOksigen"),
+                    "🔴 Rendah",
+                    "merah"
+                );
+
+            } else if (oksigen <= 8) {
+
+                setStatus(
+                    document.getElementById("statusOksigen"),
+                    "✅ Baik",
+                    "hijau"
+                );
+
+            } else {
+
+                setStatus(
+                    document.getElementById("statusOksigen"),
+                    "🔵 Sangat Baik",
+                    "biru"
+                );
+            }
+
+            /* Status Ketinggian Air */
+
+            if (air < 70) {
+
+                setStatus(
+                    document.getElementById("statusAir"),
+                    "🔴 Rendah",
+                    "merah"
+                );
+
+            } else if (air <= 90) {
+
+                setStatus(
+                    document.getElementById("statusAir"),
+                    "✅ Normal",
+                    "hijau"
+                );
+
+            } else {
+
+                setStatus(
+                    document.getElementById("statusAir"),
+                    "⚠️ Terlalu Penuh",
+                    "kuning"
+                );
+            }
+        }
+    </script>
+
+</body>
+
+</html>
